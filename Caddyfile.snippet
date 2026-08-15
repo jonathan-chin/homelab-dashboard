@@ -1,0 +1,105 @@
+# ---------------------------------------------------------------------------
+# Home lab landing page + Healthchecks status proxy
+#
+# Drop this into your existing Caddyfile (adjust the site address, the web root
+# and the local Healthchecks upstream), then reload:
+#
+#     caddy validate --config /etc/caddy/Caddyfile
+#     systemctl reload caddy
+#
+# Why the proxy exists: the page is fully static, but calling the Healthchecks
+# API straight from the browser would (a) require shipping an API key to every
+# device that loads the page and (b) fail CORS anyway. Caddy fetches instead and
+# injects the key server-side, so the browser only ever talks to its own origin.
+# ---------------------------------------------------------------------------
+
+# This file is a TEMPLATE — every value below marked CHANGE ME is deployment
+# specific and deliberately generic here, so the repo carries no record of your
+# internal addressing. Your edited copy lives on the Caddy host, not in git.
+#
+# The explicit http:// scheme matters: a bare `dash.example.com` would switch on
+# Caddy's automatic HTTPS and try to provision a certificate. Drop the scheme
+# and add `tls internal` if you ever want this served over TLS.
+http://dash.example.com {
+	# CHANGE ME: the hostname you want the dashboard on
+	# --- the static page -------------------------------------------------
+	root * /srv/landing-page
+	file_server
+	encode gzip zstd
+
+	header {
+		# The page loads nothing but its own JS/CSS. Remote images are allowed
+		# so `icon` entries in config.json can point at an icon CDN.
+		Content-Security-Policy "default-src 'self'; img-src 'self' data: https:; style-src 'self'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+	}
+
+	# --- Healthchecks instances ------------------------------------------
+	#
+	# One block per instance. The page can use any number of them; each needs
+	# a matching entry under `sources` in config.json, where the key lines up
+	# with the path segment here:
+	#
+	#     /api/hc/<key>/checks/   <->   "sources": { "<key>": { ... } }
+	#
+	# Each route is deliberately pinned to the single read-only /checks/
+	# endpoint the page calls. A wildcard would turn Caddy into an open,
+	# authenticated proxy for the whole Healthchecks API to anyone who can
+	# reach this page.
+	#
+	# To add a fourth instance: copy a block, change the key in the path, and
+	# point it at a new environment variable.
+
+	# 1. local — self-hosted
+	@hc_local {
+		method GET
+		path /api/hc/local/checks/
+	}
+	handle @hc_local {
+		rewrite * /api/v3/checks/
+		# CHANGE ME: address of your self-hosted Healthchecks instance.
+		reverse_proxy http://healthchecks.internal:8000 {
+			header_up X-Api-Key {$HC_LOCAL_KEY}
+			# Don't forward browser credentials upstream.
+			header_up -Cookie
+			header_up -Authorization
+		}
+	}
+
+	# 2. cloud — healthchecks.io
+	@hc_cloud {
+		method GET
+		path /api/hc/cloud/checks/
+	}
+	handle @hc_cloud {
+		rewrite * /api/v3/checks/
+		reverse_proxy https://healthchecks.io {
+			header_up Host healthchecks.io
+			header_up X-Api-Key {$HC_CLOUD_KEY}
+			header_up -Cookie
+			header_up -Authorization
+		}
+	}
+
+	# 3. vps — a second self-hosted instance, e.g. on a public box
+	@hc_vps {
+		method GET
+		path /api/hc/vps/checks/
+	}
+	handle @hc_vps {
+		rewrite * /api/v3/checks/
+		# CHANGE ME: address of your VPS Healthchecks instance.
+		reverse_proxy https://hc.vps.example.com {
+			header_up Host hc.vps.example.com
+			header_up X-Api-Key {$HC_VPS_KEY}
+			header_up -Cookie
+			header_up -Authorization
+		}
+	}
+
+	# Anything else under /api/hc/ is not a route we serve.
+	handle /api/hc/* {
+		respond 404
+	}
+}

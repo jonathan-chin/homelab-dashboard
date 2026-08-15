@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Home Lab</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🧭</text></svg>">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <h1 id="site-title">Home Lab</h1>
+    </div>
+
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="Filter services…  (press /)"
+             autocomplete="off" spellcheck="false" aria-label="Filter services">
+    </div>
+
+    <div class="topbar-actions">
+      <button id="theme-toggle" class="icon-btn" type="button" title="Toggle theme" aria-label="Toggle theme"></button>
+      <button id="refresh" class="icon-btn" type="button" title="Refresh now" aria-label="Refresh now">↻</button>
+    </div>
+  </div>
+
+  <div class="statusbar" id="statusbar">
+    <div class="tallies" id="tallies"></div>
+    <div class="sources" id="sources"></div>
+    <div class="refreshed" id="refreshed"></div>
+  </div>
+</header>
+
+<main id="board" aria-live="polite"></main>
+
+<section id="orphans" class="orphans" hidden>
+  <h2>Unmapped checks</h2>
+  <p class="orphans-note">Reporting to Healthchecks but not tied to a service tile below. Add a <code>check</code> entry in <code>config.json</code> to attach one.</p>
+  <div class="orphan-list" id="orphan-list"></div>
+</section>
+
+<footer class="foot">
+  <span id="foot-note"></span>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

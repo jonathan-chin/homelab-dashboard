@@ -1,0 +1,204 @@
+{
+  "_comment": [
+    "Home lab landing page - configuration.",
+    "",
+    "JSON has no comment syntax, so any key starting with an underscore is",
+    "treated as a comment and ignored by the page. Full field reference is in",
+    "README.md.",
+    "",
+    "This is the tracked TEMPLATE. Copy it to config.json, which is gitignored",
+    "because it describes your real deployment:",
+    "    cp config.example.json config.json",
+    "",
+    "It ships deliberately over-stuffed - delete the groups and services you do",
+    "not run. Every service here is an example, not a requirement."
+  ],
+  "_fields": {
+    "_name": "required - display name",
+    "_url": "required - link target, opens in a new tab",
+    "_desc": "small grey line under the name; defaults to the hostname",
+    "_check": "Healthchecks slug; omit to slugify `name`; null to opt out",
+    "_source": "which instance owns the check; defaults to `defaultSource`",
+    "_icon": "built-in icon name, or an image path/URL",
+    "_color": "tile colour, any CSS colour",
+    "_tags": "extra words the filter box should match on"
+  },
+  "_icons": {
+    "_media": "tv, film, music, book, captions, play, request, download, chart, search",
+    "_infra": "server, proxy, containers, shield, pulse, globe, network, wifi, link",
+    "_data": "database, gauge, cpu, disk, clock, bell",
+    "_dev": "workflow, terminal, git, bot, flask, camera",
+    "_home": "home, cloud, photo, lock, document, archive",
+    "_office": "wiki, tasks, calendar, mail, key, rss, utensils"
+  },
+
+  "title": "Home Lab",
+  "refreshSeconds": 60,
+
+  "_defaultSource": "which instance a service uses when it does not name one; omit to use the first below",
+  "defaultSource": "local",
+
+  "sources": {
+    "_comment": "Add as many Healthchecks instances as you like - one entry per API key, each with a matching Caddy route. endpoint always points at your own origin, never at healthchecks.io, so the key stays server-side.",
+    "local": { "label": "Local", "endpoint": "/api/hc/local/checks/" },
+    "cloud": { "label": "Cloud", "endpoint": "/api/hc/cloud/checks/" },
+    "vps": { "label": "VPS", "endpoint": "/api/hc/vps/checks/" }
+  },
+
+  "groups": [
+    {
+      "name": "Media",
+      "services": [
+        { "name": "Plex"           , "url": "http://plex.example.com"       , "icon": "play"    , "color": "#e5a00d" , "desc": "Media server" },
+        { "name": "Jellyfin"       , "url": "http://jellyfin.example.com"   , "icon": "play"    , "color": "#7b3fa5" , "desc": "Media server" },
+        { "name": "Emby"           , "url": "http://emby.example.com"       , "icon": "play"    , "color": "#4caf50" , "desc": "Media server" },
+        { "name": "Overseerr"      , "url": "http://overseerr.example.com"  , "icon": "request" , "color": "#5b4ce0" , "desc": "Requests" },
+        { "name": "Jellyseerr"     , "url": "http://jellyseerr.example.com" , "icon": "request" , "color": "#8f5cd6" , "desc": "Requests" },
+        { "name": "Tautulli"       , "url": "http://tautulli.example.com"   , "icon": "chart"   , "color": "#d9822b" , "desc": "Plex stats" },
+        { "name": "Navidrome"      , "url": "http://navidrome.example.com"  , "icon": "music"   , "color": "#1a73e8" , "desc": "Music streaming" },
+        { "name": "Audiobookshelf" , "url": "http://audiobooks.example.com" , "icon": "book"    , "color": "#82612f" , "desc": "Audiobooks"      , "check": "audiobookshelf" },
+        { "name": "Kavita"         , "url": "http://kavita.example.com"     , "icon": "book"    , "color": "#4ac694" , "desc": "Comics & books" },
+        { "name": "Calibre-Web"    , "url": "http://calibre.example.com"    , "icon": "book"    , "color": "#a0522d" , "desc": "Ebook library"   , "check": "calibre-web" }
+      ]
+    },
+    {
+      "name": "Arr Stack",
+      "services": [
+        { "name": "Sonarr"    , "url": "http://sonarr.example.com"    , "icon": "tv"       , "color": "#3aa9d6" , "desc": "TV" },
+        { "name": "Radarr"    , "url": "http://radarr.example.com"    , "icon": "film"     , "color": "#f2c40e" , "desc": "Movies" },
+        { "name": "Prowlarr"  , "url": "http://prowlarr.example.com"  , "icon": "search"   , "color": "#e8562a" , "desc": "Indexers" },
+        { "name": "Bazarr"    , "url": "http://bazarr.example.com"    , "icon": "captions" , "color": "#b34f2f" , "desc": "Subtitles" },
+        { "name": "Lidarr"    , "url": "http://lidarr.example.com"    , "icon": "music"    , "color": "#37a86b" , "desc": "Music" },
+        { "name": "Readarr"   , "url": "http://readarr.example.com"   , "icon": "book"     , "color": "#b0453f" , "desc": "Books" },
+        { "name": "Autobrr"   , "url": "http://autobrr.example.com"   , "icon": "bot"      , "color": "#4f46e5" , "desc": "Release automation" },
+        { "name": "Unpackerr" , "url": "http://unpackerr.example.com" , "icon": "archive"  , "color": "#6b7280" , "desc": "Extraction" },
+        { "name": "Recyclarr" , "url": "http://recyclarr.example.com" , "icon": "tasks"    , "color": "#0ea5e9" , "desc": "Quality profiles" }
+      ]
+    },
+    {
+      "name": "Downloads",
+      "services": [
+        { "name": "qBittorrent"  , "url": "http://qbit.example.com"         , "icon": "download" , "color": "#2f6fb0" , "desc": "Torrents"    , "check": "qbittorrent" },
+        { "name": "SABnzbd"      , "url": "http://sab.example.com"          , "icon": "download" , "color": "#f7c948" , "desc": "Usenet"      , "check": "sabnzbd" },
+        { "name": "NZBGet"       , "url": "http://nzbget.example.com"       , "icon": "download" , "color": "#3b7a3b" , "desc": "Usenet" },
+        { "name": "Transmission" , "url": "http://transmission.example.com" , "icon": "download" , "color": "#d0021b" , "desc": "Torrents" },
+        { "name": "Gluetun"      , "url": "http://gluetun.example.com"      , "icon": "shield"   , "color": "#22aa77" , "desc": "VPN gateway" }
+      ]
+    },
+    {
+      "name": "Virtualisation & Containers",
+      "services": [
+        { "name": "Proxmox"    , "url": "http://pve.example.com:8006"   , "icon": "server"     , "color": "#e57000" , "desc": "Hypervisor"     , "tags": "pve virtualisation" },
+        { "name": "Proxmox BS" , "url": "http://pbs.example.com:8007"   , "icon": "archive"    , "color": "#e57000" , "desc": "Backup server"  , "check": "proxmox-backup" },
+        { "name": "TrueNAS"    , "url": "http://truenas.example.com"    , "icon": "disk"       , "color": "#0095d5" , "desc": "Storage" },
+        { "name": "Portainer"  , "url": "http://portainer.example.com"  , "icon": "containers" , "color": "#1a9bd7" , "desc": "Containers" },
+        { "name": "Dockge"     , "url": "http://dockge.example.com"     , "icon": "containers" , "color": "#6366f1" , "desc": "Compose stacks" },
+        { "name": "Watchtower" , "url": "http://watchtower.example.com" , "icon": "bot"        , "color": "#64748b" , "desc": "Image updates" }
+      ]
+    },
+    {
+      "name": "Networking",
+      "services": [
+        { "name": "Caddy"        , "url": "http://caddy.example.com"     , "icon": "proxy"   , "color": "#22b8a0" , "desc": "Reverse proxy" },
+        { "name": "Nginx PM"     , "url": "http://npm.example.com"       , "icon": "proxy"   , "color": "#f15833" , "desc": "Reverse proxy"      , "check": "nginx-proxy-manager" },
+        { "name": "AdGuard Home" , "url": "http://adguard.example.com"   , "icon": "shield"  , "color": "#68bc71" , "desc": "DNS filtering"      , "check": "adguard-home" },
+        { "name": "Pi-hole"      , "url": "http://pihole.example.com"    , "icon": "shield"  , "color": "#b91c1c" , "desc": "DNS filtering"      , "check": "pi-hole" },
+        { "name": "UniFi"        , "url": "http://unifi.example.com"     , "icon": "wifi"    , "color": "#0559c9" , "desc": "Network controller" , "check": "unifi-controller" },
+        { "name": "OPNsense"     , "url": "http://opnsense.example.com"  , "icon": "network" , "color": "#d94f00" , "desc": "Firewall" },
+        { "name": "Tailscale"    , "url": "http://tailscale.example.com" , "icon": "link"    , "color": "#4b5563" , "desc": "Mesh VPN" },
+        { "name": "WireGuard"    , "url": "http://wg.example.com"        , "icon": "link"    , "color": "#88171a" , "desc": "VPN" }
+      ]
+    },
+    {
+      "name": "Monitoring",
+      "services": [
+        { "name": "Uptime Kuma"  , "url": "http://kuma.example.com"       , "icon": "pulse"    , "color": "#5cdd8b" , "desc": "Uptime" },
+        { "name": "Grafana"      , "url": "http://grafana.example.com"    , "icon": "chart"    , "color": "#f46800" , "desc": "Dashboards" },
+        { "name": "Prometheus"   , "url": "http://prometheus.example.com" , "icon": "gauge"    , "color": "#e6522c" , "desc": "Metrics" },
+        { "name": "InfluxDB"     , "url": "http://influx.example.com"     , "icon": "database" , "color": "#22adf6" , "desc": "Time series" },
+        { "name": "Loki"         , "url": "http://loki.example.com"       , "icon": "document" , "color": "#f5a623" , "desc": "Logs" },
+        { "name": "Netdata"      , "url": "http://netdata.example.com"    , "icon": "cpu"      , "color": "#00ab44" , "desc": "Realtime metrics" },
+        { "name": "Scrutiny"     , "url": "http://scrutiny.example.com"   , "icon": "disk"     , "color": "#5c6bc0" , "desc": "Drive health" },
+        { "name": "Speedtest"    , "url": "http://speedtest.example.com"  , "icon": "gauge"    , "color": "#141526" , "desc": "WAN throughput"   , "check": "speedtest-tracker" },
+        { "name": "Healthchecks" , "url": "http://hc.example.com"         , "icon": "pulse"    , "color": "#4c8bf5" , "desc": "Local monitor"    , "check": "healthchecks" }
+      ]
+    },
+    {
+      "name": "Home Automation",
+      "services": [
+        { "name": "Home Assistant" , "url": "http://ha.example.com"       , "icon": "home"     , "color": "#41bdf5" , "desc": "Automation" },
+        { "name": "Node-RED"       , "url": "http://nodered.example.com"  , "icon": "workflow" , "color": "#8f0000" , "desc": "Flows" },
+        { "name": "Zigbee2MQTT"    , "url": "http://z2m.example.com"      , "icon": "network"  , "color": "#623ce4" , "desc": "Zigbee bridge" },
+        { "name": "ESPHome"        , "url": "http://esphome.example.com"  , "icon": "cpu"      , "color": "#158ff4" , "desc": "Device firmware" },
+        { "name": "Mosquitto"      , "url": "http://mqtt.example.com"     , "icon": "network"  , "color": "#3c5280" , "desc": "MQTT broker" },
+        { "name": "Frigate"        , "url": "http://frigate.example.com"  , "icon": "camera"   , "color": "#1f2937" , "desc": "NVR" },
+        { "name": "Scrypted"       , "url": "http://scrypted.example.com" , "icon": "camera"   , "color": "#0b7285" , "desc": "Camera hub" }
+      ]
+    },
+    {
+      "name": "Files & Documents",
+      "services": [
+        { "name": "Nextcloud"    , "url": "http://nextcloud.example.com"  , "icon": "cloud"    , "color": "#0082c9" , "desc": "Files" },
+        { "name": "Immich"       , "url": "http://immich.example.com"     , "icon": "photo"    , "color": "#fa2921" , "desc": "Photos" },
+        { "name": "PhotoPrism"   , "url": "http://photoprism.example.com" , "icon": "photo"    , "color": "#3d5afe" , "desc": "Photos" },
+        { "name": "Paperless"    , "url": "http://paperless.example.com"  , "icon": "document" , "color": "#17541f" , "desc": "Documents"    , "check": "paperless-ngx" },
+        { "name": "Syncthing"    , "url": "http://syncthing.example.com"  , "icon": "link"     , "color": "#0b8bcc" , "desc": "File sync" },
+        { "name": "FileBrowser"  , "url": "http://files.example.com"      , "icon": "document" , "color": "#455a64" , "desc": "File manager" },
+        { "name": "Stirling PDF" , "url": "http://pdf.example.com"        , "icon": "document" , "color": "#b91c1c" , "desc": "PDF tools"    , "check": "stirling-pdf" }
+      ]
+    },
+    {
+      "name": "Identity & Security",
+      "services": [
+        { "name": "Vaultwarden" , "url": "http://vault.example.com"    , "icon": "lock"   , "color": "#175ddc" , "desc": "Passwords" },
+        { "name": "Authentik"   , "url": "http://auth.example.com"     , "icon": "key"    , "color": "#fd4b2d" , "desc": "SSO" },
+        { "name": "Authelia"    , "url": "http://authelia.example.com" , "icon": "key"    , "color": "#0e6ba8" , "desc": "SSO" },
+        { "name": "CrowdSec"    , "url": "http://crowdsec.example.com" , "icon": "shield" , "color": "#22c55e" , "desc": "Intrusion detection" }
+      ]
+    },
+    {
+      "name": "Productivity & Dev",
+      "services": [
+        { "name": "Gitea"       , "url": "http://git.example.com"       , "icon": "git"      , "color": "#609926" , "desc": "Git hosting" },
+        { "name": "Wiki.js"     , "url": "http://wiki.example.com"      , "icon": "wiki"     , "color": "#1976d2" , "desc": "Wiki"        , "check": "wiki-js" },
+        { "name": "BookStack"   , "url": "http://bookstack.example.com" , "icon": "wiki"     , "color": "#0288d1" , "desc": "Docs" },
+        { "name": "Vikunja"     , "url": "http://tasks.example.com"     , "icon": "tasks"    , "color": "#1973ff" , "desc": "To-do" },
+        { "name": "Mealie"      , "url": "http://mealie.example.com"    , "icon": "utensils" , "color": "#e58325" , "desc": "Recipes" },
+        { "name": "n8n"         , "url": "http://n8n.example.com"       , "icon": "workflow" , "color": "#ea4b71" , "desc": "Automation" },
+        { "name": "code-server" , "url": "http://code.example.com"      , "icon": "terminal" , "color": "#2496ed" , "desc": "VS Code"     , "check": "code-server" },
+        { "name": "Jupyter"     , "url": "http://jupyter.example.com"   , "icon": "flask"    , "color": "#f37626" , "desc": "Notebooks" },
+        { "name": "Actual"      , "url": "http://actual.example.com"    , "icon": "chart"    , "color": "#7b61ff" , "desc": "Budgeting"   , "check": "actual-budget" },
+        { "name": "Radicale"    , "url": "http://dav.example.com"       , "icon": "calendar" , "color": "#5b7c99" , "desc": "CalDAV" },
+        { "name": "Mailcow"     , "url": "http://mail.example.com"      , "icon": "mail"     , "color": "#2b6cb0" , "desc": "Mail server" },
+        { "name": "FreshRSS"    , "url": "http://rss.example.com"       , "icon": "rss"      , "color": "#f57900" , "desc": "Feeds" }
+      ]
+    },
+    {
+      "name": "Scheduled Jobs",
+      "services": [
+        { "name": "ZFS Scrub"    , "url": "http://hc.example.com" , "icon": "disk"       , "color": "#7a869a" , "desc": "Monthly pool scrub" , "check": "zfs-scrub" },
+        { "name": "Backup Job"   , "url": "http://hc.example.com" , "icon": "archive"    , "color": "#7a869a" , "desc": "Nightly PBS run"    , "check": "pbs-nightly" },
+        { "name": "Docker Prune" , "url": "http://hc.example.com" , "icon": "containers" , "color": "#7a869a" , "desc": "Weekly image prune" , "check": "docker-prune" },
+        { "name": "DB Dump"      , "url": "http://hc.example.com" , "icon": "database"   , "color": "#7a869a" , "desc": "Nightly SQL dump"   , "check": "db-dump" }
+      ]
+    },
+    {
+      "name": "Offsite",
+      "services": [
+        { "name": "Restic Offsite" , "url": "https://healthchecks.io/projects/" , "icon": "archive" , "color": "#7a869a" , "desc": "Nightly offsite copy" , "check": "restic-offsite", "source": "cloud" },
+        { "name": "WAN Heartbeat"  , "url": "https://healthchecks.io/projects/" , "icon": "globe"   , "color": "#7a869a" , "desc": "Internet uplink"      , "check": "wan-heartbeat", "source": "cloud" },
+        { "name": "Cert Renewal"   , "url": "https://healthchecks.io/projects/" , "icon": "lock"    , "color": "#7a869a" , "desc": "ACME renewal"         , "check": "cert-renewal", "source": "cloud" },
+        { "name": "Home Monitor"   , "url": "https://healthchecks.io/projects/" , "icon": "pulse"   , "color": "#7a869a" , "desc": "Watches the local HC" , "check": "healthchecks-local", "source": "cloud" }
+      ]
+    },
+    {
+      "name": "Public VPS",
+      "services": [
+        { "name": "Public Site" , "url": "https://example.com" , "icon": "globe"  , "color": "#7a869a" , "desc": "Marketing site" , "check": "public-site", "source": "vps" },
+        { "name": "VPS Uptime"  , "url": "https://example.com" , "icon": "server" , "color": "#7a869a" , "desc": "Host heartbeat" , "check": "vps-uptime", "source": "vps" },
+        { "name": "Mail Relay"  , "url": "https://example.com" , "icon": "mail"   , "color": "#7a869a" , "desc": "Outbound SMTP"  , "check": "mail-relay", "source": "vps" },
+        { "name": "Status Page" , "url": "https://example.com" , "icon": "bell"   , "color": "#7a869a" , "desc": "Public status"  , "check": "status-page", "source": "vps" }
+      ]
+    }
+  ]
+}

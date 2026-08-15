@@ -1,0 +1,39 @@
+# --- secrets -----------------------------------------------------------------
+# The Healthchecks API keys belong in Caddy's systemd environment, never in the
+# repo. These patterns are a backstop in case a key ever lands in a local file.
+.env
+.env.*
+*.local
+secrets/
+*.key
+*.pem
+*.crt
+Caddyfile.local
+
+# --- your actual deployment --------------------------------------------------
+# config.json maps your real internal topology: every service you run and the
+# hostname it answers on. That is the one genuinely sensitive file here, so it
+# stays untracked. config.example.json is the tracked template:
+#   cp config.example.json config.json
+config.json
+config.local.json
+
+# --- OS ----------------------------------------------------------------------
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+
+# --- editors -----------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- misc --------------------------------------------------------------------
+*.log
+__pycache__/
+node_modules/
