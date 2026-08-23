@@ -250,9 +250,13 @@ main {
 
 .group-alarm {
   margin-left: auto;
-  font-size: 11.5px;
+  padding: 1px 9px;
+  font-size: 11px;
   font-weight: 600;
+  border-radius: 999px;
   color: var(--down);
+  background: color-mix(in srgb, var(--down) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--down) 32%, transparent);
 }
 
 .grid {
@@ -275,21 +279,33 @@ main {
   text-decoration: none;
   color: inherit;
   box-shadow: var(--shadow);
-  transition: border-color .15s, transform .12s, box-shadow .15s;
+  transition: border-color .15s, box-shadow .15s,
+              transform .26s cubic-bezier(.34, 1.56, .64, 1);
 }
+
+/* Hover bobs the tile up. The overshoot in the easing is what makes it read as
+   a bob rather than a slide — it lifts past the mark and settles back. */
 .tile:hover {
   border-color: var(--border-strong);
-  transform: translateY(-1px);
+  transform: translateY(-4px);
   box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 10px 24px rgba(0,0,0,.10);
 }
-.tile:active { transform: translateY(0); }
+.tile:active { transform: translateY(-1px); }
 .tile:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-.tile[data-status="down"]  { border-color: color-mix(in srgb, var(--down) 55%, var(--border)); }
-.tile[data-status="grace"] { border-color: color-mix(in srgb, var(--grace) 50%, var(--border)); }
+/* A wash behind the coloured border is what carries across a room — a 1px
+   border and an 8px dot do not, which is the whole job of a wall dashboard. */
+.tile[data-status="down"] {
+  border-color: color-mix(in srgb, var(--down) 55%, var(--border));
+  background: color-mix(in srgb, var(--down) 8%, var(--bg-elev));
+}
+.tile[data-status="grace"] {
+  border-color: color-mix(in srgb, var(--grace) 50%, var(--border));
+  background: color-mix(in srgb, var(--grace) 8%, var(--bg-elev));
+}
 
 .tile-icon {
   width: 34px; height: 34px;
@@ -301,7 +317,19 @@ main {
   letter-spacing: -.02em;
   color: #fff;
   overflow: hidden;
+  background: var(--tint);
 }
+
+/* Logos ship their own colour, and most of these ship their own circular
+   ground too — a plate behind one just reads as a halo. So they get the bare
+   box and the brand fill is dropped; the mark carries the colour instead. */
+.tile-icon[data-kind="logo"] { background: none; padding: 2px; }
+
+/* ...unless the mark is pale, or is a disc with its own light ground, which
+   against a light tile leaves it with no edge. `plate: true` restores the
+   fill; `color` picks it, and wants to be dark enough to hold that edge. */
+.tile-icon[data-kind="logo"][data-plate] { background: var(--tint); padding: 4px; }
+
 .tile-icon img { width: 100%; height: 100%; object-fit: contain; }
 .tile-icon svg { width: 19px; height: 19px; }
 

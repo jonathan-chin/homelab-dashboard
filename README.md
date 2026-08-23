@@ -59,7 +59,8 @@ mostly *deleting* the things you don't run. The same reference follows.
 | `check` | Healthchecks **slug**. Omit to use a slugified `name` (`Home Assistant` → `home-assistant`). Use `null` to opt out of monitoring — the tile becomes a plain link. |
 | `source` | Which instance owns the check — any key from `sources`. Defaults to `defaultSource`. |
 | `icon` | A built-in icon name, or an image path/URL (anything containing `/` or `.`). Falls back to a coloured monogram. |
-| `color` | Tile colour, any CSS colour. Defaults to one derived from the name. |
+| `color` | Tile colour, any CSS colour. Defaults to one derived from the name. Ignored for image icons unless `plate` is set — a logo carries its own colour. |
+| `plate` | Image icons sit on a bare plate by default. Set `true` to put the `color` fill back behind one. Needed for pale marks, and for logos that carry their own light circular ground, which otherwise lose their edge against the light theme. |
 | `tags` | Extra words the filter box should match on. |
 
 If the file doesn't parse, the page names the line and column rather than
@@ -76,6 +77,22 @@ dev      workflow, terminal, git, bot, flask, camera
 home     home, cloud, photo, lock, document, archive
 office   wiki, tasks, calendar, mail, key, rss, utensils
 ```
+
+**App logos** — `assets/logos/` holds 74 SVG marks vendored from
+[homarr-labs/dashboard-icons](https://github.com/homarr-labs/dashboard-icons),
+referenced as `"icon": "assets/logos/<name>.svg"`. They are committed rather
+than hotlinked for the same reason the glyphs are inline: the dashboard has to
+render with the internet down. To add one, drop the SVG in that directory and
+point `icon` at it.
+
+A logo sits on a bare plate, since most carry their own colour and circular
+ground. Marks that are pale, or that ship a light ground, lose their edge
+against the light theme — those set `plate: true` and a dark `color`. Seven do
+today: Sonarr, Bazarr, Autobrr, BookStack, Dockge, Healthchecks and Uptime Kuma.
+
+Entries with no honest match in the pack keep a built-in glyph: Unpackerr,
+Scrypted and Speedtest, plus everything under Scheduled Jobs and Offsite, which
+are cron jobs and heartbeats rather than apps.
 
 ## Multiple Healthchecks instances
 

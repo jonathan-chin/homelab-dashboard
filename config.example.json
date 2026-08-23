@@ -20,7 +20,8 @@
     "_check": "Healthchecks slug; omit to slugify `name`; null to opt out",
     "_source": "which instance owns the check; defaults to `defaultSource`",
     "_icon": "built-in icon name, or an image path/URL",
-    "_color": "tile colour, any CSS colour",
+    "_color": "tile colour, any CSS colour; ignored for image icons unless `plate` is set",
+    "_plate": "true to put the colour fill back behind an image icon - for pale marks and light-ground logos",
     "_tags": "extra words the filter box should match on"
   },
   "_icons": {

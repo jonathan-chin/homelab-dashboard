@@ -235,11 +235,21 @@
   function buildTile(svc, resolved) {
     const { status, check } = resolved;
 
+    const glyph = iconNode(svc);
+    // A real logo brings its own colour and usually its own circular ground,
+    // so it wants a bare plate. Stroked glyphs and monograms are white on
+    // nothing, so they still need the solid brand fill behind them.
+    const kind = !glyph ? "monogram" : glyph.tagName === "IMG" ? "logo" : "glyph";
+
     const icon = el("div", {
       class: "tile-icon",
-      style: `background:${svc.color || autoColor(svc.name)}`,
+      "data-kind": kind,
+      // A logo normally wants the bare plate, but a mark that is pale, or that
+      // carries its own light ground, dissolves against a light tile. Opting
+      // in with `plate: true` puts the solid fill back underneath it.
+      "data-plate": kind === "logo" && svc.plate === true,
+      style: `--tint:${svc.color || autoColor(svc.name)}`,
     });
-    const glyph = iconNode(svc);
     if (glyph) icon.appendChild(glyph);
     else icon.textContent = monogram(svc.name);
 
@@ -254,11 +264,6 @@
     else if (check || status === "error") sub = STATUS_LABEL[status];
     else sub = svc.desc || hostOf(svc.url);
 
-    const tooltipBits = [svc.name, STATUS_LABEL[status]];
-    if (check && check.last_ping) tooltipBits.push(`last ping ${relTime(check.last_ping)}`);
-    if (check && check.next_ping) tooltipBits.push(`next due ${relTime(check.next_ping)}`);
-    if (svc.desc) tooltipBits.push(svc.desc);
-
     return el(
       "a",
       {
@@ -267,7 +272,6 @@
         "data-status": status,
         "data-search": [svc.name, svc.desc, svc.tags, hostOf(svc.url), check && check.tags]
           .filter(Boolean).join(" ").toLowerCase(),
-        title: tooltipBits.join(" — "),
         target: "_blank",
         rel: "noopener noreferrer",
       },
