@@ -128,13 +128,14 @@
     {
       "name": "Home Automation",
       "services": [
-        { "name": "Home Assistant" , "url": "http://ha.example.com"       , "icon": "home"     , "color": "#41bdf5" , "desc": "Automation" },
-        { "name": "Node-RED"       , "url": "http://nodered.example.com"  , "icon": "workflow" , "color": "#8f0000" , "desc": "Flows" },
-        { "name": "Zigbee2MQTT"    , "url": "http://z2m.example.com"      , "icon": "network"  , "color": "#623ce4" , "desc": "Zigbee bridge" },
-        { "name": "ESPHome"        , "url": "http://esphome.example.com"  , "icon": "cpu"      , "color": "#158ff4" , "desc": "Device firmware" },
-        { "name": "Mosquitto"      , "url": "http://mqtt.example.com"     , "icon": "network"  , "color": "#3c5280" , "desc": "MQTT broker" },
-        { "name": "Frigate"        , "url": "http://frigate.example.com"  , "icon": "camera"   , "color": "#1f2937" , "desc": "NVR" },
-        { "name": "Scrypted"       , "url": "http://scrypted.example.com" , "icon": "camera"   , "color": "#0b7285" , "desc": "Camera hub" }
+        { "name": "Home Assistant" , "url": "http://ha.example.com"       , "icon": "home"                     , "color": "#41bdf5" , "desc": "Automation" },
+        { "name": "Node-RED"       , "url": "http://nodered.example.com"  , "icon": "workflow"                 , "color": "#8f0000" , "desc": "Flows" },
+        { "name": "Zigbee2MQTT"    , "url": "http://z2m.example.com"      , "icon": "network"                  , "color": "#623ce4" , "desc": "Zigbee bridge" },
+        { "name": "ESPHome"        , "url": "http://esphome.example.com"  , "icon": "cpu"                      , "color": "#158ff4" , "desc": "Device firmware" },
+        { "name": "FilaMan"        , "url": "http://filaman.example.com"  , "icon": "assets/logos/filaman.svg" ,                      "desc": "Filament tracking" , "tags": "3d printing spool filament spoolman bambu esp32" },
+        { "name": "Mosquitto"      , "url": "http://mqtt.example.com"     , "icon": "network"                  , "color": "#3c5280" , "desc": "MQTT broker" },
+        { "name": "Frigate"        , "url": "http://frigate.example.com"  , "icon": "camera"                   , "color": "#1f2937" , "desc": "NVR" },
+        { "name": "Scrypted"       , "url": "http://scrypted.example.com" , "icon": "camera"                   , "color": "#0b7285" , "desc": "Camera hub" }
       ]
     },
     {

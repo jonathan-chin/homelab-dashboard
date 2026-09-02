@@ -35,7 +35,7 @@ Healthchecks instance.
 ```
 
 The template ships with a `_comment` header plus `_fields` and `_icons` blocks,
-so the docs travel with the file. It is deliberately over-stuffed — 90 services
+so the docs travel with the file. It is deliberately over-stuffed — 91 services
 across 13 groups covering a fairly complete homelab — so that setting up is
 mostly *deleting* the things you don't run. The same reference follows.
 
@@ -78,19 +78,25 @@ home     home, cloud, photo, lock, document, archive
 office   wiki, tasks, calendar, mail, key, rss, utensils
 ```
 
-**App logos** — `assets/logos/` holds 75 SVG marks, 74 of them vendored from
+**App logos** — `assets/logos/` holds 76 SVG marks, 74 of them vendored from
 [homarr-labs/dashboard-icons](https://github.com/homarr-labs/dashboard-icons),
 referenced as `"icon": "assets/logos/<name>.svg"`. They are committed rather
 than hotlinked for the same reason the glyphs are inline: the dashboard has to
 render with the internet down. To add one, drop the SVG in that directory and
 point `icon` at it.
 
-The odd one out is `calibre-web-downloader.svg`, drawn here rather than
-vendored — upstream has no mark for it. It is `calibre-web.svg` with a download
-badge, and the arrow inside that badge is a hole rather than a fill: logos
-render in an `<img>`, so `currentColor` does not inherit and any fixed arrow
-colour would fail on one of the two themes. Letting the tile show through
-keeps it legible on both.
+Two are drawn here rather than vendored, because upstream has no usable mark:
+
+- `calibre-web-downloader.svg` — `calibre-web.svg` with a download badge. The
+  arrow inside that badge is a hole rather than a fill: logos render in an
+  `<img>`, so `currentColor` does not inherit and any fixed arrow colour would
+  fail on one of the two themes. Letting the tile show through keeps it legible
+  on both.
+- `filaman.svg` — upstream ships FilaMan as a PNG only, and its logo is a spool
+  behind a `FilaMan` wordmark that is unreadable at the 30px a tile icon
+  renders at. This keeps the spool and drops the words. Its outer edge is the
+  gold of the flange rather than the black of the original, which would lose
+  its edge against the dark theme.
 
 A logo sits on a bare plate, since most carry their own colour and circular
 ground. Marks that are pale, or that ship a light ground, lose their edge

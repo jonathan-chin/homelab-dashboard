@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 11 106 106">
+<defs>
+<!-- The wound filament: cyan at the top of the coil, blue at the bottom, as
+     on the upstream mark. -->
+<linearGradient id="coil" x1="0" y1="0" x2=".4" y2="1">
+<stop offset="0" stop-color="#25cad9"/>
+<stop offset="1" stop-color="#3a6cb0"/>
+</linearGradient>
+</defs>
+<!-- Far side of the spool: filament wound on the drum, seen at an angle. -->
+<path fill="url(#coil)" d="M48 24 H95 a17 40 0 0 1 0 80 H48 Z"/>
+<!-- Two windings, enough to read as a coil at 30px without turning to moire. -->
+<g fill="none" stroke="#134a76" stroke-opacity=".5" stroke-width="3">
+<path d="M84 24.5 a17 40 0 0 1 0 79"/>
+<path d="M95 25 a17 40 0 0 1 0 78"/>
+</g>
+<!-- Near flange. Its outermost edge is gold rather than the black of the
+     upstream mark: logos render on a bare plate, so a black silhouette would
+     lose its edge against the dark theme. -->
+<circle cx="48" cy="64" r="42" fill="#c9ae2b"/>
+<circle cx="48" cy="64" r="38" fill="none" stroke="#141414" stroke-width="4.5"/>
+<g stroke="#141414" stroke-width="3.4" stroke-linecap="round">
+<path d="M64.4 68.4 L81.8 73.1 M60.0 76.0 L72.7 88.7 M52.4 80.4 L57.1 97.8 M43.6 80.4 L38.9 97.8 M36.0 76.0 L23.3 88.7 M31.6 68.4 L14.2 73.1 M31.6 59.6 L14.2 54.9 M36.0 52.0 L23.3 39.3 M43.6 47.6 L38.9 30.2 M52.4 47.6 L57.1 30.2 M60.0 52.0 L72.7 39.3 M64.4 59.6 L81.8 54.9"/>
+</g>
+<circle cx="48" cy="64" r="15" fill="#141414"/>
+<circle cx="48" cy="64" r="7" fill="#c9ae2b"/>
+</svg>
