@@ -50,16 +50,17 @@
     {
       "name": "Media",
       "services": [
-        { "name": "Plex"           , "url": "http://plex.example.com"       , "icon": "play"    , "color": "#e5a00d" , "desc": "Media server" },
-        { "name": "Jellyfin"       , "url": "http://jellyfin.example.com"   , "icon": "play"    , "color": "#7b3fa5" , "desc": "Media server" },
-        { "name": "Emby"           , "url": "http://emby.example.com"       , "icon": "play"    , "color": "#4caf50" , "desc": "Media server" },
-        { "name": "Overseerr"      , "url": "http://overseerr.example.com"  , "icon": "request" , "color": "#5b4ce0" , "desc": "Requests" },
-        { "name": "Jellyseerr"     , "url": "http://jellyseerr.example.com" , "icon": "request" , "color": "#8f5cd6" , "desc": "Requests" },
-        { "name": "Tautulli"       , "url": "http://tautulli.example.com"   , "icon": "chart"   , "color": "#d9822b" , "desc": "Plex stats" },
-        { "name": "Navidrome"      , "url": "http://navidrome.example.com"  , "icon": "music"   , "color": "#1a73e8" , "desc": "Music streaming" },
-        { "name": "Audiobookshelf" , "url": "http://audiobooks.example.com" , "icon": "book"    , "color": "#82612f" , "desc": "Audiobooks"      , "check": "audiobookshelf" },
-        { "name": "Kavita"         , "url": "http://kavita.example.com"     , "icon": "book"    , "color": "#4ac694" , "desc": "Comics & books" },
-        { "name": "Calibre-Web"    , "url": "http://calibre.example.com"    , "icon": "book"    , "color": "#a0522d" , "desc": "Ebook library"   , "check": "calibre-web" }
+        { "name": "Plex"            , "url": "http://plex.example.com"       , "icon": "play"     , "color": "#e5a00d" , "desc": "Media server" },
+        { "name": "Jellyfin"        , "url": "http://jellyfin.example.com"   , "icon": "play"     , "color": "#7b3fa5" , "desc": "Media server" },
+        { "name": "Emby"            , "url": "http://emby.example.com"       , "icon": "play"     , "color": "#4caf50" , "desc": "Media server" },
+        { "name": "Overseerr"       , "url": "http://overseerr.example.com"  , "icon": "request"  , "color": "#5b4ce0" , "desc": "Requests" },
+        { "name": "Jellyseerr"      , "url": "http://jellyseerr.example.com" , "icon": "request"  , "color": "#8f5cd6" , "desc": "Requests" },
+        { "name": "Tautulli"        , "url": "http://tautulli.example.com"   , "icon": "chart"    , "color": "#d9822b" , "desc": "Plex stats" },
+        { "name": "Navidrome"       , "url": "http://navidrome.example.com"  , "icon": "music"    , "color": "#1a73e8" , "desc": "Music streaming" },
+        { "name": "Audiobookshelf"  , "url": "http://audiobooks.example.com" , "icon": "book"     , "color": "#82612f" , "desc": "Audiobooks"      , "check": "audiobookshelf" },
+        { "name": "Kavita"          , "url": "http://kavita.example.com"     , "icon": "book"     , "color": "#4ac694" , "desc": "Comics & books" },
+        { "name": "Calibre-Web"     , "url": "http://calibre.example.com"    , "icon": "book"     , "color": "#a0522d" , "desc": "Ebook library"   , "check": "calibre-web" },
+        { "name": "Book Downloader" , "url": "http://booksdl.example.com"    , "icon": "download" , "color": "#8c4a20" , "desc": "Ebook fetcher"   , "check": "calibre-web-downloader" , "tags": "calibre calibre-web cwa ebooks" }
       ]
     },
     {
